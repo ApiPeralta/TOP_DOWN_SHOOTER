@@ -42,7 +42,11 @@ public class Controller_Enemy : MonoBehaviour
             Destroy(this.gameObject);
             Controller_Hud.points++;
         }
-        if (collision.gameObject.CompareTag("Bumeran"))
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Bumeran"))
         {
             Destroy(this.gameObject);
             Controller_Hud.points++;

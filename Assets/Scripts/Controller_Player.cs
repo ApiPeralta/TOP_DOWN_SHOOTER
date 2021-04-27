@@ -2,6 +2,9 @@
 
 public class Controller_Player : MonoBehaviour
 {
+    private float slowMotion = 1;
+    private bool timerSlow = false;
+
     public Camera cam;
     private Rigidbody rb;
     private Renderer render;
@@ -40,6 +43,7 @@ public class Controller_Player : MonoBehaviour
 
     private void Update()
     {
+        Slow();
         movement.x = Input.GetAxis("Horizontal");
         movement.z = Input.GetAxis("Vertical");
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -48,6 +52,25 @@ public class Controller_Player : MonoBehaviour
     public virtual void FixedUpdate()
     {
         Movement();
+    }
+
+    private void Slow()
+    {
+        if (timerSlow) 
+        { 
+            slowMotion -= Time.deltaTime; 
+            if(slowMotion <= 0)
+            {
+                Time.timeScale = 1f;
+                timerSlow = false;
+                slowMotion = 1;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.U) && timerSlow == false)
+        {
+            timerSlow = true;
+            Time.timeScale = 0.3f;
+        }
     }
 
     private void Movement()
@@ -104,12 +127,14 @@ public class Controller_Player : MonoBehaviour
             }
             Destroy(collision.gameObject);
         }
-
-        if (collision.gameObject.CompareTag("Bumeran"))
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Bumeran"))
         {
             Controller_Shooting.ammo = Ammo.Bumeran;
             Controller_Shooting.ammunition = 1;
-            Destroy(collision.gameObject);
+            Destroy(other.gameObject);
         }
     }
 
