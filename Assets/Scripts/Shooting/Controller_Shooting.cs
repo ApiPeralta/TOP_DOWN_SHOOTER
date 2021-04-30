@@ -11,7 +11,10 @@ public class Controller_Shooting : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject cannonPrefab;
     public GameObject bumeranPrefab;
+    public GameObject barrelPrefab;
+    public GameObject miniGunPrefab;
     public float bulletForce = 20f;
+    public float bulletForce2 = 50f;
     private bool started = false;
 
     private void Awake()
@@ -59,6 +62,10 @@ public class Controller_Shooting : MonoBehaviour
             Shoot();
             CheckAmmo();
         }
+        if ((ammo == Ammo.Minigun) && (Input.GetButton("Fire1")))
+        {
+            Shoot();
+        }
     }
 
     private void CheckAmmo()
@@ -100,6 +107,17 @@ public class Controller_Shooting : MonoBehaviour
             rb.AddForce(firePoint.forward * bulletForce, ForceMode.Impulse);
             ammunition--;
         }
+        else if (ammo == Ammo.Minigun)
+        {
+            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            rb.AddForce(firePoint.forward * bulletForce2, ForceMode.Impulse);
+        }
+        else if (ammo == Ammo.Barrel)
+        {
+            GameObject bullet = Instantiate(barrelPrefab, firePoint.position, firePoint.rotation);
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        }
         else if (ammo == Ammo.Bumeran)
         {
             GameObject bullet = Instantiate(bumeranPrefab, firePoint.position, firePoint.rotation);
@@ -122,5 +140,8 @@ public enum Ammo
     Normal,
     Shotgun,
     Cannon,
+    Barrel,
+    Minigun,
+    Sword,
     Bumeran
 }

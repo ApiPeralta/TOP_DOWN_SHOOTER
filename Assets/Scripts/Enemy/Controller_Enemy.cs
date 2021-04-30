@@ -51,6 +51,11 @@ public class Controller_Enemy : MonoBehaviour
             Destroy(this.gameObject);
             Controller_Hud.points++;
         }
+        if (other.gameObject.CompareTag("sPlayer"))
+        {
+            Destroy(this.gameObject);
+            Controller_Hud.points++;
+        }
     }
 
     private void OnDestroy()

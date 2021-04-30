@@ -6,6 +6,8 @@ public class Controller_Player : MonoBehaviour
     private bool timerSlow = false;
 
     public Camera cam;
+    public GameObject sword;
+    public GameObject shield;
     private Rigidbody rb;
     private Renderer render;
     public static Controller_Player _Player;
@@ -15,9 +17,13 @@ public class Controller_Player : MonoBehaviour
     private Vector3 startPos;
     private bool started = false;
     public float speed = 5;
+    public int swordVar = 0;
+    public int shieldVar = 0;
 
     private void Start()
     {
+        sword.SetActive(false);
+        shield.SetActive(false);
         if (_Player == null)
         {
             _Player = this.gameObject.GetComponent<Controller_Player>();
@@ -44,6 +50,40 @@ public class Controller_Player : MonoBehaviour
     private void Update()
     {
         Slow();
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            Controller_Shooting.ammo = Ammo.Barrel;
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            Controller_Shooting.ammo = Ammo.Minigun;
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            if (swordVar == 0)
+            {
+                sword.SetActive(true);
+                swordVar = 1;
+            }
+            else
+            {
+                sword.SetActive(false);
+                swordVar = 0;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            if (shieldVar == 0)
+            {
+                shield.SetActive(true);
+                shieldVar = 1;
+            }
+            else
+            {
+                shield.SetActive(false);
+                shieldVar = 0;
+            }
+        }
         movement.x = Input.GetAxis("Horizontal");
         movement.z = Input.GetAxis("Vertical");
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

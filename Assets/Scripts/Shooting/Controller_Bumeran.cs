@@ -12,6 +12,8 @@ public class Controller_Bumeran : MonoBehaviour
     private float travelDistance;
     private float colliderTimer = 0.07f;
     private bool going;
+    public Transform ObjectToFollow = null;
+    public Transform Jugador;
 
     void Start()
     {
@@ -75,7 +77,10 @@ public class Controller_Bumeran : MonoBehaviour
 
     private void ReturnToPlayer()
     {
-        rb.AddForce(direction * bumeranSpeed);
+
+        ObjectToFollow = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+
+        transform.position = Vector3.MoveTowards(transform.position, ObjectToFollow.transform.position, 7 * Time.deltaTime);
     }
 
     private void OnDisable()
